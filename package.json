@@ -1,0 +1,64 @@
+{
+  "name": "cursor-character-count",
+  "displayName": "Character Count (全角半角対応)",
+  "description": "全角文字を1文字、半角文字を0.5文字としてカウントし、ステータスバーに表示するCursor拡張機能",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:plaintext",
+    "onLanguage:markdown"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Character Count",
+      "properties": {
+        "characterCount.charsPerLine1": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "1行あたりの文字数①（0で無効）"
+        },
+        "characterCount.charsPerLine2": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "1行あたりの文字数②（0で無効）"
+        },
+        "characterCount.charsPerLine3": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "1行あたりの文字数③（0で無効）"
+        },
+        "characterCount.charsPerLine4": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "1行あたりの文字数④（0で無効）"
+        },
+        "characterCount.charsPerLine5": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "1行あたりの文字数⑤（0で無効）"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}
