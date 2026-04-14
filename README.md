@@ -53,7 +53,7 @@ Cursor の設定メニュー（`Cmd+,` または `Ctrl+,`）で `Character Count
 
 ### VSIX ファイルから
 
-1. [Releases](https://github.com/moriyakeiichi/cursor-character-count/releases) から `.vsix` ファイルをダウンロード
+1. [リポジトリ](https://github.com/moriyakeiichi/cursor-character-count) から `.vsix` ファイルをダウンロード
 2. Cursor のコマンドパレット（`Cmd+Shift+P`）を開く
 3. `Extensions: Install from VSIX...` を選択
 4. ダウンロードした `.vsix` ファイルを指定
