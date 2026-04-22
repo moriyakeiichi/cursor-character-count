@@ -55,10 +55,7 @@ function updateStatusBar(): void {
     for (const key of keys) {
         const cpl = config.get<number>(key, 0);
         if (cpl > 0) {
-            let lines = Math.ceil(count / cpl);
-            if (hasSelection) {
-                lines += countNewlinesFollowedByChar(text);
-            }
+            const lines = calcLines(text, cpl);
             parts.push(`${cpl}文字 ✕ ${lines}行`);
         }
     }
@@ -71,20 +68,35 @@ function updateStatusBar(): void {
     }
 }
 
-function countNewlinesFollowedByChar(text: string): number {
-    let count = 0;
-    const len = text.length;
-    for (let i = 0; i < len; i++) {
-        if (text[i] === '\n' && i + 1 < len && text[i + 1] !== '\n' && text[i + 1] !== '\r') {
-            count++;
-        } else if (text[i] === '\r') {
-            const next = (i + 1 < len && text[i + 1] === '\n') ? i + 2 : i + 1;
-            if (next < len && text[next] !== '\n' && text[next] !== '\r') {
-                count++;
-            }
-        }
+/**
+ * 原稿用紙換算の行数を計算する。
+ *
+ * ルール：
+ *   - 改行（\n / \r\n / \r）で論理行に分割する。
+ *   - 各論理行について ceil(行の文字数 / cpl) を加算する（空行は 1 行扱い）。
+ *   - 末尾が改行で終わる場合、その後ろに続く空の論理行はカウントしない
+ *     （例：「20文字\n」は 1 行、「20文字\n1文字」は 2 行）。
+ *
+ * これにより、以下の挙動になる（cpl=20 の場合）：
+ *   1. 20文字            → 1 行
+ *   2. 21文字            → 2 行
+ *   3. 20文字\n1文字     → 2 行
+ *   4. 1文字\n1文字      → 2 行
+ *   5. 1文字\n1文字\n1文字 → 3 行
+ */
+function calcLines(text: string, cpl: number): number {
+    if (text.length === 0) return 0;
+
+    const logicalLines = text.split(/\r\n|\r|\n/);
+    const trailingNewline = /(?:\r\n|\r|\n)$/.test(text);
+    const effectiveLines = trailingNewline ? logicalLines.slice(0, -1) : logicalLines;
+
+    let total = 0;
+    for (const line of effectiveLines) {
+        const c = countChars(line);
+        total += Math.max(1, Math.ceil(c / cpl));
     }
-    return count;
+    return total;
 }
 
 function countChars(text: string): number {

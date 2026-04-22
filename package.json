@@ -2,7 +2,7 @@
   "name": "cursor-character-count",
   "displayName": "Character Count (全角半角対応)",
   "description": "全角文字を1文字、半角文字を0.5文字としてカウントし、ステータスバーに表示するCursor拡張機能",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "vscode": "^1.85.0"
   },
